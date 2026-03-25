@@ -1,152 +1,195 @@
-🖐️ AI-Based Palmistry Prediction System
+# 🖐️ AI-Based Palmistry Prediction System
 
-📌 Overview
+> A web application that simulates palmistry using computer vision and rule-based AI — built with React, Flask, and OpenCV.
 
-This project is a web-based application that simulates palmistry using basic AI techniques. Users can upload an image of their palm, and the system analyzes palm lines using computer vision to generate predictions about personality, career, and emotions.
+![Python](https://img.shields.io/badge/Python-3.8+-blue?style=flat-square&logo=python)
+![Flask](https://img.shields.io/badge/Flask-2.x-black?style=flat-square&logo=flask)
+![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat-square&logo=react)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.x-green?style=flat-square&logo=opencv)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-⚠️ Note: This project does not perform real palmistry. It uses image processing and rule-based logic to simulate predictions for educational purposes.
+---
 
-⸻
+## 📌 Overview
 
-🚀 Features
-	•	📤 Upload palm image
-	•	🖼️ Image preview (React frontend)
-	•	🔍 Edge detection using OpenCV
-	•	🧠 Rule-based prediction system
-	•	❤️ Multi-section results (Love, Personality, Career)
-	•	🎲 Randomized responses for dynamic output
-	•	⚠️ Basic validation for incorrect inputs
+This project is a full-stack web application that accepts a palm image from the user, processes it using **OpenCV** for edge detection and line analysis, and generates **AI-simulated predictions** for personality, career, and love life using rule-based logic.
 
-⸻
+> ⚠️ Disclaimer: This application does **not** perform real palmistry. Predictions are simulated using computer vision techniques and predefined rules for educational purposes.
 
-🧱 Tech Stack
+---
 
-Frontend
-	•	React.js
-	•	HTML, CSS, JavaScript
+## ✨ Features
 
-Backend
-	•	Python (Flask)
+- 📤 Upload palm image from browser
+- 🔍 Grayscale conversion + edge detection (Canny algorithm)
+- 📊 Line density analysis to drive predictions
+- 🔮 Predictions across 3 categories: **Love**, **Career**, **Personality**
+- 🖼️ View processed (edge-detected) image alongside results
+- ⚡ Fast response with loading state feedback
 
-Libraries
-	•	OpenCV
-	•	NumPy
-	•	Flask-CORS
+---
 
-⸻
+## 🧱 System Architecture
 
-⚙️ How It Works
-	1.	User uploads a palm image via the frontend
-	2.	The image is sent to the Flask backend
-	3.	The backend processes the image:
-	•	Converts to grayscale
-	•	Applies Gaussian blur
-	•	Detects edges using Canny algorithm
-	4.	Extracted edge patterns are analyzed
-	5.	Rule-based logic generates predictions
-	6.	Results are sent back and displayed
+```
+┌─────────────────────┐         ┌──────────────────────────┐
+│     React Frontend  │  POST   │     Flask Backend         │
+│  (Upload + Results) │────────▶│  /analyze endpoint        │
+│                     │◀────────│  OpenCV Processing        │
+│  Displays:          │  JSON   │  Rule-based Predictions   │
+│  - Processed image  │         └──────────────────────────┘
+│  - Prediction cards │
+└─────────────────────┘
+```
 
-⸻
+---
 
-🧪 Installation & Setup
+## 🗂️ Project Structure
 
-1️⃣ Clone the Repository
+```
+palmistry-app/
+│
+├── palmistry-backend/
+│   ├── app.py              # Flask server + image processing logic
+│   └── requirements.txt    # Python dependencies
+│
+├── palmistry-frontend/
+│   ├── public/
+│   └── src/
+│       ├── App.js           # Root component + state management
+│       └── components/
+│           ├── Upload.js    # Image upload UI
+│           └── Results.js   # Processed image + prediction cards
+│
+└── README.md
+```
 
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.8+
+- Node.js 16+
+- npm
+
+---
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/your-username/palmistry-ai.git
 cd palmistry-ai
+```
 
+---
 
-⸻
+### 2. Run the Backend
 
-2️⃣ Backend Setup (Flask)
-
-cd backend
+```bash
+cd palmistry-backend
 pip install -r requirements.txt
 python app.py
+```
 
+Backend runs on **http://localhost:5000**
 
-⸻
+---
 
-3️⃣ Frontend Setup (React)
+### 3. Run the Frontend
 
-cd frontend
+```bash
+cd palmistry-frontend
 npm install
 npm start
+```
 
+Frontend runs on **http://localhost:3000**
 
-⸻
+---
 
-🌐 API Endpoint
+## 📦 Dependencies
 
-POST /analyze
+### Backend (`requirements.txt`)
 
-Request:
-	•	Form-data with image file
+```
+flask
+flask-cors
+opencv-python
+numpy
+```
 
-Response:
+### Frontend
 
-{
-  "prediction": {
-    "personality": "You are calm and practical",
-    "career": "You are suited for leadership roles",
-    "love": "You value deep emotional connections"
-  }
-}
+```
+react
+axios
+```
 
+---
 
-⸻
+## ⚙️ How It Works
 
-⚠️ Limitations
-	•	Not a real palmistry system
-	•	No deep learning or trained model
-	•	Accuracy depends on image quality
-	•	Cannot verify if the image is actually a palm
+1. User uploads a palm image via the React UI
+2. Image is sent as a `multipart/form-data` POST request to `/analyze`
+3. Flask receives the image and passes it to OpenCV
+4. OpenCV converts to **grayscale** → applies **Canny edge detection**
+5. Line density (ratio of edge pixels to total pixels) is calculated
+6. A **rule-based system** maps density ranges to predictions
+7. Processed image (base64) + predictions are returned as JSON
+8. React renders the results on screen
 
-⸻
+---
 
-🚀 Future Improvements
-	•	Real palm detection using deep learning
-	•	Improved accuracy with trained datasets
-	•	User authentication system
-	•	Report generation (PDF)
-	•	Mobile app version
+## 🤖 AI Techniques Used
 
-⸻
+| Technique | Purpose |
+|---|---|
+| **Computer Vision** | Detect palm lines via edge detection |
+| **Rule-Based System** | Map line patterns to personality predictions |
+| **Randomization** | Add variation to generated prediction text |
 
-📊 Project Structure
+> No deep learning or trained models are used — this project simulates AI behavior using classical image processing.
 
-palmistry-ai/
-│
-├── frontend/        # React app
-├── backend/         # Flask server
-│   ├── app.py
-│   └── requirements.txt
-└── README.md
+---
 
+## 📸 Screenshots
 
-⸻
+> *(Add screenshots of your app here after building)*
 
-🎯 Learning Outcomes
-	•	Understanding of computer vision basics
-	•	Integration of frontend and backend
-	•	Working with REST APIs
-	•	Simulating AI behavior using rule-based systems
+| Upload Screen | Results Screen |
+|---|---|
+| ![upload](#) | ![results](#) |
 
-⸻
+---
 
-🎤 Viva Note
+## ⚠️ Limitations
 
-This project uses computer vision (OpenCV) for edge detection and applies rule-based logic to simulate palmistry predictions. It is not a trained AI model but demonstrates AI concepts effectively.
+- Predictions are not scientifically or astrologically accurate
+- Accuracy depends on image quality and lighting
+- Uses fixed rule thresholds, not a trained ML model
 
-⸻
+---
 
-📜 License
+## 🔭 Future Enhancements
 
-This project is for educational purposes only.
+- [ ] Deep learning model for real palm line detection
+- [ ] User login and prediction history
+- [ ] Mobile-responsive design
+- [ ] Multilingual support
+- [ ] Confidence score for predictions
 
-⸻
+---
 
-🙌 Acknowledgements
-	•	OpenCV Documentation
-	•	Flask Documentation
-	•	React Documentation
+## 👨‍💻 Author
+
+**G Anirudh**
+SRM Institute of Science and Technology
+Reg. No: RA2411003010020
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
